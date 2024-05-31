@@ -1,6 +1,7 @@
 .button {
 	padding: 8px 0px;
 	display: flex;
+	cursor: pointer;
 	align-items: center;
 	justify-content: center;
 	height: 40px;

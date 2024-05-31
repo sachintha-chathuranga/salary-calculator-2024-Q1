@@ -6,7 +6,9 @@ interface TextInputProps {
 }
 
 const TextInput: React.FC<TextInputProps> = ({ size, placeholder }) => {
-	return <input className={`input ${size}`} placeholder={placeholder} />;
+	return (
+		<input className={`input ${size} normalText`} placeholder={placeholder} />
+	);
 };
 
 export default TextInput;
