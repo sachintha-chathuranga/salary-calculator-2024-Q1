@@ -1,12 +1,35 @@
 import Dashboard from "../components/dashboard/Dashboard";
-import Form from "../components/form/Form";
-import "./App.css";
+import Form from "../components/Form";
+
+import styled from "styled-components";
+
+const Container = styled.div`
+	padding: 128px 142px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	column-gap: 24px;
+	min-height: 100vh;
+	background: #ffffff;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+		padding: 50px;
+	}
+
+	@media (min-width: ${({ theme }) =>
+			theme.breakpoints.mobile}) and (max-width: ${({ theme }) =>
+			theme.breakpoints.tablet}) {
+		flex-direction: column;
+		row-gap: 24px;
+	}
+`;
+
 function App() {
 	return (
-		<div className="App">
+		<Container>
 			<Form />
 			<Dashboard />
-		</div>
+		</Container>
 	);
 }
 

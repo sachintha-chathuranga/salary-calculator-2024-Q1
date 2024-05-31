@@ -1,28 +1,55 @@
 import React from "react";
-import TextInput from "../textInput/TextInput";
-import "./ListItem.css";
+import TextInput from "../TextInput";
+import styled from "styled-components";
 interface ListItemProps {
 	id: number;
 	epfVisibility: boolean;
 }
 
+const Item = styled.li`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+`;
+const InputWrapper = styled.div`
+	display: flex;
+	gap: 8px;
+`;
+const EpfWrapper = styled.div`
+	display: flex;
+	margin-top: 8px;
+	gap: 16px;
+`;
+const CheckBoxWrapper = styled.label`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 20px;
+	color: #000000;
+`;
+const CheckBox = styled.input`
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+`;
+
 const ListItem: React.FC<ListItemProps> = ({ id, epfVisibility }) => {
 	return (
-		<li key={id}>
-			<div className="inputWrapper">
-				<TextInput size="mediaum" placeholder="sdfsd" />
-				<TextInput size="small" placeholder="sdfsdf" />
-			</div>
-			<div className="epfSection">
+		<Item key={id}>
+			<InputWrapper>
+				<TextInput size="212px" placeholder="sdfsd" />
+				<TextInput size="136px" placeholder="sdfsdf" />
+			</InputWrapper>
+			<EpfWrapper>
 				<img src="/icons/close.png" alt="icon" />
-				<span style={{ display: epfVisibility ? "flex" : "none" }}>
-					<input type="checkbox" name="1" id="1" />
-					<label htmlFor="1" className="normalText">
-						EPF/ETF
-					</label>
-				</span>
-			</div>
-		</li>
+				<CheckBoxWrapper htmlFor="1" >
+					<CheckBox type="checkbox" name="1" id="1" />
+					EPF/ETF
+				</CheckBoxWrapper>
+			</EpfWrapper>
+		</Item>
 	);
 };
 
