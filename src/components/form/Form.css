@@ -1,0 +1,13 @@
+.form {
+	width: 680px;
+}
+header {
+	display: flex;
+	justify-content: space-between;
+}
+
+@media only screen and (max-width: 1020px) {
+	.form {
+		width: 100%;
+	}
+}

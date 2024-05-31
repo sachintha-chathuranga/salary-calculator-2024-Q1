@@ -1,0 +1,9 @@
+.button {
+	padding: 8px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	width: fit-content;
+	gap: 5px;
+}
