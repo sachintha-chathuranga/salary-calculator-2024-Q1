@@ -9,6 +9,10 @@ const Reducer = (state: State, action: Action): State =>{
 		return { ...state, earnings: action.payload };
 	case "UPDATE_DEDUCTION":
 		return { ...state, deductions: action.payload };
+	case "UPDATE_TAX_RATE":
+		return { ...state, taxRate: action.payload };
+	case "UPDATE_REGULAR_PROFIT":
+		return { ...state, regularProfit: action.payload };
 	case "RESET":
 		return action.payload;
 	default:

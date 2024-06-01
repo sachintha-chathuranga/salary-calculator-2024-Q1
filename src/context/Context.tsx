@@ -9,9 +9,11 @@ export interface Data{
 }
 
 export interface State {
-    basicSalary: string;
-    earnings: Data[];
-    deductions: Data[];
+  basicSalary: string;
+  earnings: Data[];
+	deductions: Data[];
+	taxRate: number;
+	regularProfit: number;
 }
 // Load initial state from sessionStorage
 const loadState = (): State => {
@@ -23,16 +25,22 @@ const loadState = (): State => {
 		basicSalary: "",
 		earnings: [],
 		deductions: [],
+		taxRate: 0,
+		regularProfit:0,
 	};
 };
 
 // Clear the sessionStorage
 export const clearStorage = (): State => {
 	sessionStorage.removeItem("appState");
+	sessionStorage.removeItem("tax");
+	sessionStorage.removeItem('constant');
 	return {
 		basicSalary: "",
 		earnings: [],
 		deductions: [],
+		taxRate: 0,
+		regularProfit: 0
 	};
 };
 
@@ -47,7 +55,6 @@ export const  ContextProvider:React.FC<ContextProviderProps> = ({children}) =>{
 	const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
 
 	useEffect(() => {
-		console.log("update session storage!");
 		sessionStorage.setItem("appState", JSON.stringify(state));
 	}, [state]);
 

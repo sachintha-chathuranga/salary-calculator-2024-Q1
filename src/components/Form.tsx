@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import TextInput from "./TextInput";
 import InputList from "./InputList";
@@ -6,7 +6,7 @@ import InputList from "./InputList";
 import styled from "styled-components";
 import { MainTitle, SubTitle, Wrapper } from "../GlobalStyles";
 import { Context } from "../context/Context";
-import { Reset, SetBasicSalary } from "../context/Actions";
+import { Reset, SetBasicSalary, UpdateRegularProf, UpdateTaxRate } from "../context/Actions";
 
 const FormWrapper = styled(Wrapper)`
 	width: 680px;
@@ -34,6 +34,36 @@ function Form() {
 	const { state, dispatch } = useContext(Context);
 	const [salary, setSalary] = useState<string>(state.basicSalary);
 	const [isReset, setisReset] = useState(false);
+
+	useEffect(() => {
+		const basicSalary = parseFloat(salary);
+		let taxRate = 0;
+		let regularProfit = 0;
+		if (basicSalary) {
+			if (basicSalary >100000 && basicSalary<=141667) {
+				taxRate = 0.06;
+				regularProfit = 6000;
+			} else if(basicSalary >141667 && basicSalary<=183333){
+				taxRate = 0.12;
+				regularProfit = 14500;
+			}else if(basicSalary >183333 && basicSalary<=225000){
+				taxRate = 0.18;
+				regularProfit = 25500;
+			}else if(basicSalary >225000 && basicSalary<=266667){
+				taxRate = 0.24;
+				regularProfit = 39000;
+			}else if(basicSalary >266667 && basicSalary<=308333){
+				taxRate = 0.3;
+				regularProfit = 55000;
+			} else if(basicSalary>308333){
+				taxRate = 0.36;
+				regularProfit = 73500;
+			}
+		}
+		dispatch(UpdateTaxRate(taxRate));
+		dispatch(UpdateRegularProf(regularProfit));
+	}, [salary]);
+	
 
 	const handleSalaryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;

@@ -6,8 +6,6 @@ import { Context } from "../context/Context";
 const EMPLOYEE_EPF_RATE = 0.08;
 const EMPLOYER_EPF_RATE = 0.12;
 const EMPLOYER_ETF_RATE = 0.03;
-const TAX_RATE = 0.15;
-const CONSTANT_VALUE = 10;
 const DashboardWrapper = styled(Wrapper)`
 	width: 480px;
 
@@ -108,7 +106,7 @@ const Dashboard = () => {
 		const totEarnForEpf = calTotEarnForEpf();
 		const employeeEPF = totEarnForEpf * EMPLOYEE_EPF_RATE;
 		setEmployeeEpf(employeeEPF);
-		const APIT = grossEarn ? (grossEarn * TAX_RATE) - CONSTANT_VALUE : 0;
+		const APIT = grossEarn ? (grossEarn * state.taxRate) - state.regularProfit : 0;
 		setApit(APIT);
 		setNetSalary(grossEarn - employeeEPF - APIT);
 		const employerEPF = totEarnForEpf * EMPLOYER_EPF_RATE;
