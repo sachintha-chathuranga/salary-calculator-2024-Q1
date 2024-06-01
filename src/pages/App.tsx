@@ -1,7 +1,7 @@
-import Dashboard from '../components/dashboard/Dashboard';
-import Form from '../components/Form';
-import React from 'react';
-import styled from 'styled-components';
+import Dashboard from "../components/Dashboard";
+import Form from "../components/Form";
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
 	padding: 128px 142px;
@@ -12,16 +12,21 @@ const Container = styled.div`
 	min-height: 100vh;
 	background: #ffffff;
 
-	@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-		padding: 50px;
-	}
-
-	@media (min-width: ${({ theme }) =>
-		theme.breakpoints.mobile}) and (max-width: ${({ theme }) =>
-	theme.breakpoints.tablet}) {
-		flex-direction: column;
-		row-gap: 24px;
-	}
+	
+	@media (max-width: ${({ theme }) =>
+		theme.breakpoints.laptop}) {
+			padding: 5%;
+		}
+		
+		@media (max-width: ${({ theme }) =>
+		theme.breakpoints.tablet}) {
+			flex-direction: column;
+			row-gap: 24px;
+			padding: 10%;
+		}
+		@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+			padding: 5%;
+		}
 `;
 
 function App() {

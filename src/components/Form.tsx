@@ -1,14 +1,18 @@
-import React from 'react';
-import Button from './Button';
-import TextInput from './TextInput';
-import InputList from './InputList';
+import React from "react";
+import Button from "./Button";
+import TextInput from "./TextInput";
+import InputList from "./InputList";
 
-import styled from 'styled-components';
-import { MainTitle, SubTitle, Wrapper } from '../GlobalStyles';
+import styled from "styled-components";
+import { MainTitle, SubTitle, Wrapper } from "../GlobalStyles";
 
-const FormCard = styled(Wrapper)`
+const FormWrapper = styled(Wrapper)`
 	width: 680px;
 
+	@media (max-width: ${({ theme }) =>
+		theme.breakpoints.tablet}) {
+		width: 100%;
+	}
 	@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
 		width: 100%;
 	}
@@ -29,10 +33,10 @@ const Section = styled.section`
 `;
 function Form() {
 	const reset = () => {
-		console.log('reset');
+		console.log("reset");
 	};
 	return (
-		<FormCard>
+		<FormWrapper>
 			<Header>
 				<MainTitle>Calculate Your Salary</MainTitle>
 				<Button addAlowance={reset} text="Reset" icon="/icons/reset.png" />
@@ -55,7 +59,7 @@ function Form() {
 				epfVisibility={false}
 				buttonText="Add New Deduction"
 			/>
-		</FormCard>
+		</FormWrapper>
 	);
 }
 

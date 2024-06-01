@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
-import Button from './Button';
-import ListItem from './ListItem/ListItem';
-import styled from 'styled-components';
-import { SmallText, SubTitle } from '../GlobalStyles';
+import React, { useCallback, useState } from "react";
+import Button from "./Button";
+import ListItem from "./ListItem";
+import styled from "styled-components";
+import { SmallText, SubTitle } from "../GlobalStyles";
 
 interface InputListProps {
 	title: string;
@@ -35,7 +35,7 @@ const InputList: React.FC<InputListProps> = ({
 	const addAllowance = useCallback(() => {
 		const newItem = {
 			id: earnings.length + 1,
-			details: 'dsf',
+			details: "dsf",
 			amount: 41,
 			epfAvailability: false,
 		};
