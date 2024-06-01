@@ -9,6 +9,8 @@ const Reducer = (state: State, action: Action): State =>{
 		return { ...state, earnings: action.payload };
 	case "UPDATE_DEDUCTION":
 		return { ...state, deductions: action.payload };
+	case "RESET":
+		return action.payload;
 	default:
 		return state;
 	}

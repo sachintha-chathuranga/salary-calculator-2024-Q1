@@ -1,9 +1,10 @@
-import { Data } from "./Context";
+import { clearStorage, Data, State } from "./Context";
 
 export type Action =
     | { type: "SET_BASIC_SALARY"; payload: string }
     | { type: "UPDATE_EARNING"; payload: Data[] }
     | { type: "UPDATE_DEDUCTION"; payload: Data[]}
+    | { type: "RESET"; payload: State}
 
 export const SetBasicSalary = (salary: string): Action => (
 	{
@@ -20,5 +21,10 @@ export const UpdateEarnings = (earnings: Data[]): Action => ({
 export const UpdateDeductions = (deductions: Data[]): Action => ({
 	type: "UPDATE_DEDUCTION",
 	payload: deductions
+});
+
+export const Reset = (): Action => ({
+	type: "RESET",
+	payload: clearStorage()
 });
 

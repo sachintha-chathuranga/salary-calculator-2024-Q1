@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useContext, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import ListItem from "./ListItem";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ interface InputListProps {
 	subtitle: string;
 	epfVisibility: boolean;
 	buttonText: string;
+	isReset: boolean;
 }
 
 const TitleBlock = styled.div`
@@ -26,13 +27,17 @@ const InputList: React.FC<InputListProps> = ({
 	subtitle,
 	epfVisibility,
 	buttonText,
+	isReset,
 }) => {
 	const { state, dispatch } = useContext(Context);
 	const [list, setList] = useState<Data[]>(epfVisibility ? state.earnings : state.deductions);
 
+	useEffect(() => {
+		setList([]);
+	}, [isReset]);
+	
+
 	const addItem = useCallback(() => {
-		console.log("add item to perant");
-		console.log("list length"+list.length);
 		const newItem = {
 			id: list.length + 1,
 			title: "",
@@ -44,14 +49,14 @@ const InputList: React.FC<InputListProps> = ({
 	}, [list]);
 
 	const removeItem = useCallback((id: number) => {
-		console.log("removeItem from parent");
+
 		const updatedList = list.filter(item => item.id !== id);
 		epfVisibility ? dispatch(UpdateEarnings(updatedList)) : dispatch(UpdateDeductions(updatedList));
 		setList(updatedList);
 	}, [list]);
 
 	const updateItem = useCallback((id: number, updatedItem: Data) => {
-		console.log("update Item in perant");
+
 		setList((prevItems) => {
 			const updatedList = prevItems.map((item) => item.id === id ? updatedItem : item);
 			epfVisibility ? dispatch(UpdateEarnings(updatedList)) : dispatch(UpdateDeductions(updatedList));

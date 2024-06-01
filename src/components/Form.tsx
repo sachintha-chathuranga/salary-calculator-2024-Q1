@@ -6,7 +6,7 @@ import InputList from "./InputList";
 import styled from "styled-components";
 import { MainTitle, SubTitle, Wrapper } from "../GlobalStyles";
 import { Context } from "../context/Context";
-import { SetBasicSalary } from "../context/Actions";
+import { Reset, SetBasicSalary } from "../context/Actions";
 
 const FormWrapper = styled(Wrapper)`
 	width: 680px;
@@ -31,10 +31,10 @@ const Section = styled.section`
 `;
 
 function Form() {
-	console.log("Form Render!");
 	const { state, dispatch } = useContext(Context);
 	const [salary, setSalary] = useState<string>(state.basicSalary);
-	
+	const [isReset, setisReset] = useState(false);
+
 	const handleSalaryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
 		const sanitizedValue = newValue.replace(/[^0-9.]/g, ''); 
@@ -42,9 +42,12 @@ function Form() {
 		setSalary(sanitizedValue);
 	}, [salary]);
 	
-	const reset = () => {
-		console.log("reset");
-	};
+	const reset = useCallback(() => {
+		dispatch(Reset());
+		setSalary('');
+		setisReset(true);
+	}, [state]);
+
 	return (
 		<FormWrapper>
 			<Header>
@@ -61,6 +64,7 @@ function Form() {
 				subtitle="Allowance, Fixed Allowance, Bonus and etc."
 				epfVisibility={true}
 				buttonText="Add New Allowance"
+				isReset={isReset}
 			/>
 			<Line />
 			<InputList
@@ -68,6 +72,7 @@ function Form() {
 				subtitle="Salary Advances, Loan Deductions and all."
 				epfVisibility={false}
 				buttonText="Add New Deduction"
+				isReset={isReset}
 			/>
 		</FormWrapper>
 	);

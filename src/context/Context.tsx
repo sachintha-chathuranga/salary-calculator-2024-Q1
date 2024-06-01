@@ -15,9 +15,7 @@ export interface State {
 }
 // Load initial state from sessionStorage
 const loadState = (): State => {
-	console.log("Load session storage!");
 	const storedState = sessionStorage.getItem("appState");
-	console.log(storedState);
 	if (storedState) {
 		return JSON.parse(storedState);
 	}
@@ -27,6 +25,17 @@ const loadState = (): State => {
 		deductions: [],
 	};
 };
+
+// Clear the sessionStorage
+export const clearStorage = (): State => {
+	sessionStorage.removeItem("appState");
+	return {
+		basicSalary: "",
+		earnings: [],
+		deductions: [],
+	};
+};
+
 export const INITIAL_STATE: State = loadState();
 
 export const Context = createContext<{ state: State; dispatch: React.Dispatch<Action> }>({ state: INITIAL_STATE, dispatch: () => {} });
