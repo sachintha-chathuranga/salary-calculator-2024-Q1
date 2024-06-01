@@ -1,7 +1,7 @@
-import Dashboard from "../components/dashboard/Dashboard";
-import Form from "../components/Form";
-
-import styled from "styled-components";
+import Dashboard from '../components/dashboard/Dashboard';
+import Form from '../components/Form';
+import React from 'react';
+import styled from 'styled-components';
 
 const Container = styled.div`
 	padding: 128px 142px;
@@ -17,8 +17,8 @@ const Container = styled.div`
 	}
 
 	@media (min-width: ${({ theme }) =>
-			theme.breakpoints.mobile}) and (max-width: ${({ theme }) =>
-			theme.breakpoints.tablet}) {
+		theme.breakpoints.mobile}) and (max-width: ${({ theme }) =>
+	theme.breakpoints.tablet}) {
 		flex-direction: column;
 		row-gap: 24px;
 	}

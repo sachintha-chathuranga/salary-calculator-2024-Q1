@@ -1,10 +1,10 @@
-import React from "react";
-import Button from "./Button";
-import TextInput from "./TextInput";
-import InputList from "./InputList";
+import React from 'react';
+import Button from './Button';
+import TextInput from './TextInput';
+import InputList from './InputList';
 
-import styled from "styled-components";
-import { MainTitle, SubTitle, Wrapper } from "../GlobalStyles";
+import styled from 'styled-components';
+import { MainTitle, SubTitle, Wrapper } from '../GlobalStyles';
 
 const FormCard = styled(Wrapper)`
 	width: 680px;
@@ -29,7 +29,7 @@ const Section = styled.section`
 `;
 function Form() {
 	const reset = () => {
-		console.log("reset");
+		console.log('reset');
 	};
 	return (
 		<FormCard>

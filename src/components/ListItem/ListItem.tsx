@@ -1,8 +1,7 @@
-import React from "react";
-import TextInput from "../TextInput";
-import styled from "styled-components";
+import React from 'react';
+import TextInput from '../TextInput';
+import styled from 'styled-components';
 interface ListItemProps {
-	id: number;
 	epfVisibility: boolean;
 }
 
@@ -35,9 +34,9 @@ const CheckBox = styled.input`
 	cursor: pointer;
 `;
 
-const ListItem: React.FC<ListItemProps> = ({ id, epfVisibility }) => {
+const ListItem: React.FC<ListItemProps> = ({ epfVisibility }) => {
 	return (
-		<Item key={id}>
+		<Item >
 			<InputWrapper>
 				<TextInput size="212px" placeholder="sdfsd" />
 				<TextInput size="136px" placeholder="sdfsdf" />
