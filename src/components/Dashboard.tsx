@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { MainTitle, Wrapper } from "../GlobalStyles";
+import { Context } from "../context/Context";
 
 const DashboardWrapper = styled(Wrapper)`
 	width: 480px;
 
-	@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+	@media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
 		width: 100%;
 	}
 `;
@@ -46,6 +47,8 @@ const BottomRow = styled(Row)`
 `;
 
 const Dashboard = () => {
+	const { state, dispatch } = useContext(Context);
+
 	return (
 		<DashboardWrapper>
 			<MainTitle>Your salary</MainTitle>
@@ -56,7 +59,7 @@ const Dashboard = () => {
 				</HeadingRow>
 				<Row>
 					<Col>Basic Salary</Col>
-					<Col>Amount</Col>
+					<Col>{state.basicSalary}</Col>
 				</Row>
 				<Row>
 					<Col>Gross Earning</Col>

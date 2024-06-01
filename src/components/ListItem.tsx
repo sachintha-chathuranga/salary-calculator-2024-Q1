@@ -1,8 +1,14 @@
-import React from "react";
+import React, { memo, useCallback, useContext, useState } from "react";
 import TextInput from "./TextInput";
 import styled from "styled-components";
+import {Context, Data } from "../context/Context";
+
+
 interface ListItemProps {
+	item: Data;
 	epfVisibility: boolean;
+	removeItem: (id: number) => void;
+	onUpdate: (id: number, updatedItem: Data) => void;
 }
 
 const Item = styled.li`
@@ -10,8 +16,7 @@ const Item = styled.li`
 	align-items: center;
 	gap: 8px;
 	
-	@media (max-width: ${({ theme }) =>
-		theme.breakpoints.miniTab}) {
+	@media (max-width: ${({ theme }) => theme.breakpoints.miniTab}) {
 			flex-direction: column;
 	}
 `;
@@ -21,15 +26,15 @@ const InputWrapper = styled.div`
 	gap: 8px;
 	`;
 interface EpfProps {
-	visibility: boolean;
+	visibility: string;
 }
-const EpfWrapper = styled.div<EpfProps>`
-	display: ${(props) => props.visibility ? "flex" : "none"};
+const EpfWrapper = styled.div`
+	display: flex;
 	margin-top: 8px;
 	gap: 16px;
 `;
-const CheckBoxWrapper = styled.label`
-	display: flex;
+const CheckBoxWrapper = styled.label<EpfProps>`
+	display: ${(props) => props.visibility=="true" ? "flex" : "none"};
 	align-items: center;
 	gap: 8px;
 	font-weight: 400;
@@ -43,17 +48,48 @@ const CheckBox = styled.input`
 	cursor: pointer;
 `;
 
-const ListItem: React.FC<ListItemProps> = ({ epfVisibility }) => {
+const ListItem: React.FC<ListItemProps> = ({ epfVisibility, item, onUpdate, removeItem }) => {
+	const { state, dispatch } = useContext(Context);
+	const [listItem, setListItem] = useState<Data>(item);
+
+	const handleTitleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.value;
+		setListItem((prevItem) => {
+			const updatedItem = { ...prevItem, title: newValue };
+			onUpdate(item.id, updatedItem);
+			return updatedItem;
+		});
+	}, [item.id, onUpdate]);
+
+	const handleAmountChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.value;
+		const sanitizedValue = newValue.replace(/[^0-9.]/g, ''); 
+		setListItem((prevItem) => {
+			const updatedItem = { ...prevItem, amount: sanitizedValue };
+			onUpdate(item.id, updatedItem);
+			return updatedItem;
+		});
+	}, [onUpdate, item.id]);
+
+	const handleCheckBoxChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.checked;
+		setListItem((prevItem) => { 
+			const updatedItem = { ...prevItem, epf: newValue };
+			onUpdate(item.id, updatedItem);
+			return updatedItem;
+		});
+	}, [onUpdate, item.id]);
+
 	return (
 		<Item>
 			<InputWrapper>
-				<TextInput size="212px" placeholder="sdfsd" />
-				<TextInput size="136px" placeholder="sdfsdf" />
+				<TextInput size="212px" placeholder="Pay Details (Title)"  value={listItem.title} onChange={handleTitleChange}/>
+				<TextInput size="136px" placeholder="Amount" value={listItem.amount} onChange={handleAmountChange}/>
 			</InputWrapper>
-			<EpfWrapper visibility={epfVisibility}>
-				<img src="/icons/close.png" alt="icon" />
-				<CheckBoxWrapper htmlFor="1">
-					<CheckBox type="checkbox" name="1" id="1" />
+			<EpfWrapper>
+				<img src="/icons/close.png" alt="icon" onClick={() => removeItem(item.id)}/>
+				<CheckBoxWrapper visibility={epfVisibility ? "true" : "false"}>
+					<CheckBox type="checkbox" checked={listItem.epf} onChange={handleCheckBoxChange}/>
 					EPF/ETF
 				</CheckBoxWrapper>
 			</EpfWrapper>
@@ -61,4 +97,4 @@ const ListItem: React.FC<ListItemProps> = ({ epfVisibility }) => {
 	);
 };
 
-export default ListItem;
+export default memo(ListItem);

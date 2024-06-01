@@ -1,20 +1,16 @@
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useContext, useState } from "react";
 import Button from "./Button";
 import ListItem from "./ListItem";
 import styled from "styled-components";
 import { SmallText, SubTitle } from "../GlobalStyles";
+import { Context, Data } from "../context/Context";
+import { UpdateDeductions, UpdateEarnings } from "../context/Actions";
 
 interface InputListProps {
 	title: string;
 	subtitle: string;
 	epfVisibility: boolean;
 	buttonText: string;
-}
-interface Earnings {
-	id: number;
-	details: string;
-	amount: number;
-	epfAvailability: boolean;
 }
 
 const TitleBlock = styled.div`
@@ -31,16 +27,37 @@ const InputList: React.FC<InputListProps> = ({
 	epfVisibility,
 	buttonText,
 }) => {
-	const [earnings, setEarnings] = useState<Earnings[]>([]);
-	const addAllowance = useCallback(() => {
+	const { state, dispatch } = useContext(Context);
+	const [list, setList] = useState<Data[]>(epfVisibility ? state.earnings : state.deductions);
+
+	const addItem = useCallback(() => {
+		console.log("add item to perant");
+		console.log("list length"+list.length);
 		const newItem = {
-			id: earnings.length + 1,
-			details: "dsf",
-			amount: 41,
-			epfAvailability: false,
+			id: list.length + 1,
+			title: "",
+			amount: "",
+			epf: false,
 		};
-		setEarnings([...earnings, newItem]);
-	}, [earnings]);
+		const newList = [...list, newItem];
+		setList(newList);
+	}, [list]);
+
+	const removeItem = useCallback((id: number) => {
+		console.log("removeItem from parent");
+		const updatedList = list.filter(item => item.id !== id);
+		epfVisibility ? dispatch(UpdateEarnings(updatedList)) : dispatch(UpdateDeductions(updatedList));
+		setList(updatedList);
+	}, [list]);
+
+	const updateItem = useCallback((id: number, updatedItem: Data) => {
+		console.log("update Item in perant");
+		setList((prevItems) => {
+			const updatedList = prevItems.map((item) => item.id === id ? updatedItem : item);
+			epfVisibility ? dispatch(UpdateEarnings(updatedList)) : dispatch(UpdateDeductions(updatedList));
+			return updatedList;
+		});
+	}, []);
 
 	return (
 		<>
@@ -49,13 +66,13 @@ const InputList: React.FC<InputListProps> = ({
 				<SmallText>{subtitle}</SmallText>
 			</TitleBlock>
 			<UnorderList>
-				{earnings.map((item) => (
-					<ListItem key={item.id} epfVisibility={epfVisibility} />
+				{list.map((item) => (
+					<ListItem key={item.id} epfVisibility={epfVisibility} item={item} onUpdate={updateItem} removeItem={removeItem} />
 				))}
 			</UnorderList>
 
 			<Button
-				addAlowance={addAllowance}
+				onClick={addItem}
 				icon="/icons/add.png"
 				text={buttonText}
 			/>
@@ -63,4 +80,4 @@ const InputList: React.FC<InputListProps> = ({
 	);
 };
 
-export default InputList;
+export default memo(InputList);

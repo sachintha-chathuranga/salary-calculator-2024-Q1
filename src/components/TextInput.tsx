@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { memo } from "react";
+
 interface TextInputProps {
 	size: string;
 	placeholder: string;
+	value: string | number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface InputProps {
@@ -23,14 +27,12 @@ const Input = styled.input<InputProps>`
 	line-height: 20px;
 	color: #000000;
 
-	@media (max-width: ${({ theme }) =>
-		theme.breakpoints.miniTab}) {
+	@media (max-width: ${({ theme }) => theme.breakpoints.miniTab}) {
 			width: ${(props) => props.width == "212px" ? "100%" : props.width > "212px" ? "80%" : props.width};
-
 	}
 `;
-const TextInput: React.FC<TextInputProps> = ({ size, placeholder }) => {
-	return <Input width={size} placeholder={placeholder} />;
+const TextInput: React.FC<TextInputProps> = ({ size, placeholder, value, onChange }) => {
+	return <Input width={size} placeholder={placeholder}   value={value} onChange={onChange} />;
 };
 
-export default TextInput;
+export default memo(TextInput);

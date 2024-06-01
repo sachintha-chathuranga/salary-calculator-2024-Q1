@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ButtonText } from '../GlobalStyles';
+import { memo } from 'react';
 
 const ButtonWrapper = styled.div`
 	padding: 8px 0px;
@@ -16,13 +17,13 @@ type RunFunction = () => void;
 interface ButtonProps {
 	text: string;
 	icon: string;
-	addAlowance: RunFunction;
+	onClick: RunFunction;
 }
 
-const Button: React.FC<ButtonProps> = ({ text, icon, addAlowance }) => {
+const Button: React.FC<ButtonProps> = ({ text, icon, onClick }) => {
 	return (
 		<>
-			<ButtonWrapper onClick={addAlowance}>
+			<ButtonWrapper onClick={onClick}>
 				<img src={icon} alt="Icon description" />
 				<ButtonText>{text}</ButtonText>
 			</ButtonWrapper>
@@ -30,4 +31,4 @@ const Button: React.FC<ButtonProps> = ({ text, icon, addAlowance }) => {
 	);
 };
 
-export default Button;
+export default memo(Button);

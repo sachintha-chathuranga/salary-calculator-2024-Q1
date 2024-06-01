@@ -17,6 +17,8 @@
 	"rules": {
 		"indent": ["error", "tab"],
 		"react/react-in-jsx-scope": "off",
+		"@typescript-eslint/no-empty-function": "off",
+		"no-mixed-spaces-and-tabs": "off",
 		"react/prop-types": "off",
 		"linebreak-style": ["error", "unix"],
 		"semi": ["error", "always"]

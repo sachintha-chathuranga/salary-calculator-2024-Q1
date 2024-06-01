@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Button from "./Button";
 import TextInput from "./TextInput";
 import InputList from "./InputList";
 
 import styled from "styled-components";
 import { MainTitle, SubTitle, Wrapper } from "../GlobalStyles";
+import { Context } from "../context/Context";
+import { SetBasicSalary } from "../context/Actions";
 
 const FormWrapper = styled(Wrapper)`
 	width: 680px;
 
-	@media (max-width: ${({ theme }) =>
-		theme.breakpoints.tablet}) {
-		width: 100%;
-	}
-	@media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+	@media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
 		width: 100%;
 	}
 `;
@@ -31,7 +29,19 @@ const Section = styled.section`
 	margin-bottom: 16px;
 	width: fit-content;
 `;
+
 function Form() {
+	console.log("Form Render!");
+	const { state, dispatch } = useContext(Context);
+	const [salary, setSalary] = useState<string>(state.basicSalary);
+	
+	const handleSalaryChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const newValue = event.target.value;
+		const sanitizedValue = newValue.replace(/[^0-9.]/g, ''); 
+		dispatch(SetBasicSalary(sanitizedValue));
+		setSalary(sanitizedValue);
+	}, [salary]);
+	
 	const reset = () => {
 		console.log("reset");
 	};
@@ -39,11 +49,11 @@ function Form() {
 		<FormWrapper>
 			<Header>
 				<MainTitle>Calculate Your Salary</MainTitle>
-				<Button addAlowance={reset} text="Reset" icon="/icons/reset.png" />
+				<Button onClick={reset} text="Reset" icon="/icons/reset.png" />
 			</Header>
 			<Section>
 				<SubTitle>Basic Salary</SubTitle>
-				<TextInput size="356px;" placeholder="something" />
+				<TextInput size="356px;" placeholder="Basic salary" value={salary} onChange={handleSalaryChange}/>
 			</Section>
 
 			<InputList
